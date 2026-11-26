@@ -1,0 +1,9 @@
+{
+    "room_number": "R7",
+    "guest_id": "G-OMAR",
+    "guest_name": "Omar",
+    "guest_email": "omar@example.com",
+    "guest_phone": "+998904445566",
+    "check_in": "2026-12-02",
+    "check_out": "2026-12-05"
+  }

@@ -1,0 +1,1 @@
+"""Modular monolith package for the Hotel Booking application."""

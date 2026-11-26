@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: hotel-booking-db
+    environment:
+      POSTGRES_DB: hotel_booking
+      POSTGRES_USER: hotel
+      POSTGRES_PASSWORD: hotel
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  cache:
+    image: redis:7-alpine
+    container_name: hotel-booking-cache
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:
