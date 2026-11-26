@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: Hotel Booking API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5080
+paths:
+  /rooms/available:
+    get:
+      summary: Search available rooms for a date range
+      parameters:
+        - name: check_in
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: check_out
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: room_type
+          in: query
+          required: false
+          schema: { type: string, enum: [SINGLE, DOUBLE, SUITE] }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, default: 10, minimum: 1, maximum: 100 }
+        - name: after
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        "200":
+          description: Page of available rooms
+        "400":
+          description: Invalid date range or room_type
+  /reservations:
+    post:
+      summary: Reserve an available room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [room_number, guest_id, guest_name, guest_email, check_in, check_out]
+              properties:
+                room_number: { type: string }
+                guest_id: { type: string }
+                guest_name: { type: string }
+                guest_email: { type: string }
+                guest_phone: { type: string }
+                check_in: { type: string, format: date }
+                check_out: { type: string, format: date }
+      responses:
+        "201":
+          description: Reservation confirmed
+        "400":
+          description: Invalid dates
+        "404":
+          description: Room does not exist
+        "409":
+          description: Room already booked for overlapping dates
+  /reservations/{booking_id}:
+    delete:
+      summary: Cancel a confirmed reservation
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "204":
+          description: Reservation cancelled
+        "404":
+          description: Reservation not found or already cancelled
