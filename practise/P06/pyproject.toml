@@ -1,0 +1,35 @@
+[tool.importlinter]
+root_package = "hotel_booking"
+
+[[tool.importlinter.contracts]]
+name = "Reservations never imports another module's internal code"
+type = "forbidden"
+source_modules = [
+    "hotel_booking.reservations",
+]
+forbidden_modules = [
+    "hotel_booking.notifications.internal",
+    "hotel_booking.payments.internal",
+    "hotel_booking.rooms.internal",
+]
+
+[[tool.importlinter.contracts]]
+name = "Supporting modules never depend on Reservations"
+type = "forbidden"
+source_modules = [
+    "hotel_booking.notifications",
+    "hotel_booking.payments",
+    "hotel_booking.rooms",
+]
+forbidden_modules = [
+    "hotel_booking.reservations",
+]
+
+[[tool.importlinter.contracts]]
+name = "Supporting modules stay independent of each other"
+type = "independence"
+modules = [
+    "hotel_booking.notifications",
+    "hotel_booking.payments",
+    "hotel_booking.rooms",
+]
